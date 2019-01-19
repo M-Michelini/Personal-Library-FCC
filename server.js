@@ -9,6 +9,12 @@ var fccTestingRoutes  = require('./routes/fcctesting.js');
 var runner            = require('./test-runner');
 
 var app = express();
+
+const mongoose = require('mongoose')
+mongoose.set('debug',true);
+mongoose.Promise = global.Promise;
+mongoose.connect(process.env.MONGO_URI)
+
 const PORT = process.env.PORT || 3000;
 app.use('/public', express.static(process.cwd() + '/public'));
 

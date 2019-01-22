@@ -1,33 +1,40 @@
-/*
-*
-*
-*       Complete the API routing below
-*       
-*       
-*/
-
 'use strict';
-
-var expect = require('chai').expect;
-var MongoClient = require('mongodb').MongoClient;
-var ObjectId = require('mongodb').ObjectId;
-const MONGODB_CONNECTION_STRING = process.env.DB;
-//Example connection: MongoClient.connect(MONGODB_CONNECTION_STRING, function(err, db) {});
+var Book = require('../models/Book');
 
 module.exports = function (app) {
 
   app.route('/api/books')
     .get(function (req, res){
+      Book.find({})
+      .then(docs=>{
+        res.json(docs.map(book=>({
+          _id:book._id,
+          title:book.title,
+          commentcount:book.comments.length
+        })));
+      }).catch(err=>{
+        res.json([])
+      })
       //response will be array of book objects
       //json res format: [{"_id": bookid, "title": book_title, "commentcount": num_of_comments },...]
     })
-    
+
     .post(function (req, res){
       var title = req.body.title;
+      Book.create({title})
+      .then(book=>{
+        res.json(book)
+      }).catch(e=>{
+        res.json(e)
+      })
       //response will contain new book object including atleast _id and title
     })
-    
+
     .delete(function(req, res){
+      Book.deleteMany({})
+      .then(()=>{
+        res.render('complete delete successful')
+      })
       //if successful response will be 'complete delete successful'
     });
 
@@ -36,18 +43,39 @@ module.exports = function (app) {
   app.route('/api/books/:id')
     .get(function (req, res){
       var bookid = req.params.id;
+      Book.find({_id:bookid}).then(b=>{
+        res.json(b)
+      }).catch(e=>{
+        res.json('Not Found!')
+      })
       //json res format: {"_id": bookid, "title": book_title, "comments": [comment,comment,...]}
     })
-    
+
     .post(function(req, res){
       var bookid = req.params.id;
       var comment = req.body.comment;
+      Book.findOneAndUpdate(
+        {_id:bookid},
+        {$push:{comments:comment}},
+        {new:true}
+      ).exec()
+      .then(newDoc=>{
+        res.json(newDoc)
+      }).catch(err=>{
+        res.json(err);
+      })
       //json res format same as .get
     })
-    
+
     .delete(function(req, res){
       var bookid = req.params.id;
+      Book.deleteOne({_id:bookid}).exec()
+      .then(d=>{
+        res.json('delete successful');
+      }).catch(e=>{
+        res.json(e);
+      })
       //if successful response will be 'delete successful'
     });
-  
+
 };

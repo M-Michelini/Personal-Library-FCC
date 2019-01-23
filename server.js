@@ -11,7 +11,8 @@ var runner            = require('./test-runner');
 
 var app = express();
 var helmet = require('helmet');
-helmet.hidePoweredBy({ setTo: 'PHP 4.2.0' })
+helmet.hidePoweredBy({ setTo: 'PHP 4.2.0' });
+helmet.noCache();
 
 const mongoose = require('mongoose');
 mongoose.set('useFindAndModify',false)

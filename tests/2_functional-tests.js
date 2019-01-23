@@ -94,7 +94,7 @@ suite('Functional Tests', function() {
         .get(`/api/books/invalid`)
         .end(function(err, res){
           assert.equal(res.status, 404);
-          assert.equal(res.body, "Not Found!", "Should return 'Not Found!'");
+          assert.equal(res.body, "no book exists", "Should return 'Not Found!'");
           done();
         });
       });
@@ -131,7 +131,7 @@ suite('Functional Tests', function() {
           done();
         });
       });
-      
+
     });
 
   });

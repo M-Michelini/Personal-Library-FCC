@@ -46,7 +46,7 @@ module.exports = function (app) {
       Book.find({_id:bookid}).then(b=>{
         res.json(b[0])
       }).catch(e=>{
-        res.status(404).json('Not Found!')
+        res.status(404).json('no book exists');
       })
       //json res format: {"_id": bookid, "title": book_title, "comments": [comment,comment,...]}
     })

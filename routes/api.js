@@ -33,7 +33,7 @@ module.exports = function (app) {
     .delete(function(req, res){
       Book.deleteMany({})
       .then(()=>{
-        res.render('complete delete successful')
+        res.json('complete delete successful')
       })
       //if successful response will be 'complete delete successful'
     });

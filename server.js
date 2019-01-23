@@ -12,12 +12,8 @@ var runner            = require('./test-runner');
 var app = express();
 
 const mongoose = require('mongoose');
-<<<<<<< HEAD
 mongoose.set('useFindAndModify',false)
 // mongoose.set('debug',true);
-=======
-mongoose.set('debug',true);
->>>>>>> ecfe237d208df08252ae27b272d4b81e2659267f
 mongoose.Promise = global.Promise;
 mongoose.connect(process.env.MONGO_URI,{ useNewUrlParser: true })
 

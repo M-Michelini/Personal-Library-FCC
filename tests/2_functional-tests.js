@@ -41,19 +41,21 @@ suite('Functional Tests', function() {
     suite('POST /api/books with title => create book object/expect book object', function() {
 
       test('Test POST /api/books with title', function(done) {
-         chai.request(server)
-          .post('/api/books')
-          .set('content-type', 'application/x-www-form-urlencoded')
-          .send({title:'Test Title'})
-          .end(function(err, res){
-            assert.equal(res.status, 200);
-            assert.property(res.body, 'comments', 'comments is an array');
-            assert.property(res.body, 'title', 'Books in array should contain title');
-            assert.property(res.body, '_id', 'Books in array should contain _id');
-            assert.isArray(res.body.comments, 'response should be an array');
-            validId = res.body._id
-            done();
-          });
+       const testTitle = 'Test Title';
+       chai.request(server)
+        .post('/api/books')
+        .set('content-type', 'application/x-www-form-urlencoded')
+        .send({title:testTitle})
+        .end(function(err, res){
+          assert.equal(res.status, 200);
+          assert.equal(res.body.title, testTitle);
+          assert.property(res.body, 'comments', 'comments is an array');
+          assert.property(res.body, 'title', 'Books in array should contain title');
+          assert.property(res.body, '_id', 'Books in array should contain _id');
+          assert.isArray(res.body.comments, 'response should be an array');
+          validId = res.body._id
+          done();
+        });
       });
 
       test('Test POST /api/books with no title given', function(done) {
@@ -61,7 +63,7 @@ suite('Functional Tests', function() {
         .post('/api/books')
         .end(function(err, res){
           assert.equal(res.status, 404,'status code should be 404');
-          assert.equal(res.body, 'missing title','body should be "missing title"');
+          assert.equal(res.text, '"missing title"','body should be "missing title"');
           done();
         });
       });
@@ -94,7 +96,7 @@ suite('Functional Tests', function() {
         .get(`/api/books/invalid`)
         .end(function(err, res){
           assert.equal(res.status, 404);
-          assert.equal(res.body, "no book exists", "Should return 'Not Found!'");
+          assert.equal(res.text, '"no book exists"', "Should return 'Not Found!'");
           done();
         });
       });
@@ -107,6 +109,7 @@ suite('Functional Tests', function() {
           assert.property(res.body, 'comments', 'Book should contain comments array');
           assert.property(res.body, 'title', 'Book should contain title');
           assert.property(res.body, '_id', 'Book should contain _id');
+          assert.equal(res.body._id, validId, 'Book should contain _id');
           assert.isArray(res.body.comments, 'comments should be an array');
           done();
         });
@@ -127,6 +130,7 @@ suite('Functional Tests', function() {
           assert.property(res.body, 'comments', 'Book should contain comments array');
           assert.property(res.body, 'title', 'Book should contain title');
           assert.property(res.body, '_id', 'Book should contain _id');
+          assert.isArray(res.body.comments, 'comments should be an array');
           assert.equal()
           done();
         });

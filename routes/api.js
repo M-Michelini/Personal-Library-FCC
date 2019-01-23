@@ -33,7 +33,7 @@ module.exports = function (app) {
     .delete(function(req, res){
       Book.deleteMany({})
       .then(()=>{
-        res.json('complete delete successful')
+        res.json('complete delete successful');
       })
       //if successful response will be 'complete delete successful'
     });
@@ -44,7 +44,8 @@ module.exports = function (app) {
     .get(function (req, res){
       var bookid = req.params.id;
       Book.find({_id:bookid}).then(b=>{
-        res.json(b[0])
+        if(b[0]) res.json(b[0]);
+        else  res.json('no book exists');
       }).catch(e=>{
         res.status(404).json('no book exists');
       })

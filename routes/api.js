@@ -25,7 +25,11 @@ module.exports = function (app) {
       .then(book=>{
         res.json(book)
       }).catch(e=>{
+<<<<<<< HEAD
         res.status(404).json('missing title')
+=======
+        res.json(e)
+>>>>>>> ecfe237d208df08252ae27b272d4b81e2659267f
       })
       //response will contain new book object including atleast _id and title
     })
@@ -44,9 +48,15 @@ module.exports = function (app) {
     .get(function (req, res){
       var bookid = req.params.id;
       Book.find({_id:bookid}).then(b=>{
+<<<<<<< HEAD
         res.json(b[0])
       }).catch(e=>{
         res.status(404).json('Not Found!')
+=======
+        res.json(b)
+      }).catch(e=>{
+        res.json('Not Found!')
+>>>>>>> ecfe237d208df08252ae27b272d4b81e2659267f
       })
       //json res format: {"_id": bookid, "title": book_title, "comments": [comment,comment,...]}
     })
@@ -60,7 +70,11 @@ module.exports = function (app) {
         {new:true}
       ).exec()
       .then(newDoc=>{
+<<<<<<< HEAD
         res.status(202).json(newDoc)
+=======
+        res.json(newDoc)
+>>>>>>> ecfe237d208df08252ae27b272d4b81e2659267f
       }).catch(err=>{
         res.json(err);
       })

@@ -11,6 +11,7 @@ var runner            = require('./test-runner');
 
 var app = express();
 var helmet = require('helmet');
+app.set('view engine', 'html');
 app.use(helmet.hidePoweredBy({ setTo: 'PHP 4.2.0' }));
 app.use(helmet.noCache());
 

@@ -1,5 +1,6 @@
 'use strict';
 require('dotenv').config();
+
 var express     = require('express');
 var bodyParser  = require('body-parser');
 var cors        = require('cors');
@@ -10,10 +11,11 @@ var runner            = require('./test-runner');
 
 var app = express();
 
-const mongoose = require('mongoose')
-mongoose.set('debug',true);
+const mongoose = require('mongoose');
+mongoose.set('useFindAndModify',false)
+// mongoose.set('debug',true);
 mongoose.Promise = global.Promise;
-mongoose.connect(process.env.MONGO_URI)
+mongoose.connect(process.env.MONGO_URI,{ useNewUrlParser: true })
 
 const PORT = process.env.PORT || 3000;
 app.use('/public', express.static(process.cwd() + '/public'));
@@ -45,6 +47,7 @@ app.use(function(req, res, next) {
 //Start our server and tests!
 app.listen(process.env.PORT || 3000, function () {
   console.log("Listening on port " + process.env.PORT || 3000);
+  console.log(process.env.NODE_ENV)
   if(process.env.NODE_ENV==='test') {
     console.log('Running Tests...');
     setTimeout(function () {
